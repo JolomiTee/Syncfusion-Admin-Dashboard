@@ -20,7 +20,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
             className="relative text-xl rounded-full p-3 hover:bg-light-gray"
         >
             <span style={{ background: dotColor }}
-                className='absolute inline-flex rounded-full h-2 right-2 w-2 top-10'
+                className='absolute inline-flex rounded-full h-2 right-2 w-2 top-2'
             />
             {icon}
         </button>
@@ -28,23 +28,73 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 )
 
 const Navbar = () => {
-    const { activeMenu, setActiveMenu } = useStateContext()
+    const { activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, screenSize, setScreenSize } = useStateContext()
+
+    useEffect(() => {
+        const handleResize = () => setScreenSize(window.innerWidth)
+        window.addEventListener('resize', handleResize)
+
+        handleResize()
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (screenSize <= 900) {
+            setActiveMenu(false);
+        } else {
+            setActiveMenu(true)
+        }
+
+    }, [screenSize])
+
+
     return (
         <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
             <NavButton title='Menu' customFunc={() => setActiveMenu((prevMenuState) => !prevMenuState)} color="blue" icon={<AiOutlineMenu />} />
 
             <div className="flex">
-            <NavButton title='Cart' customFunc={() => handleClick('cart')} color="blue" icon={<FiShoppingCart />} />
-            <NavButton title='Chat' dotColor="#03C9D7" customFunc={() => handleClick('chat')} color="blue" icon={<BsChatLeft />} />
-            <NavButton title='Notifications' dotColor="#03C9D7" customFunc={() => handleClick('notification')} color="blue" icon={<RiNotification3Line />} />
+                <NavButton
+                    title='Cart'
+                    customFunc={() => handleClick('cart')}
+                    color="blue" icon={<FiShoppingCart />}
+                />
+                <NavButton
+                    title='Chat'
+                    dotColor="#03C9D7"
+                    customFunc={() => handleClick('chat')}
+                    color="blue" icon={<BsChatLeft />}
+                />
+                <NavButton
+                    title='Notifications'
+                    dotColor="#03C9D7"
+                    customFunc={() => handleClick('notification')}
+                    color="blue"
+                    icon={<RiNotification3Line />}
+                />
 
-            <TooltipComponent content="Profile" position='BottomCenter'>
-                <div className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg" onClick={() => ('userprofile')}>
-                    <img src={avatar} alt="" className='rounded-full h-8 w-8' />
-                    <p><span className='text-gray-400 text-14'>Hi, </span>{" "} <span className='text-gray-400 font-boldml-1 text-14'>Micheal</span></p>
-                    <MdKeyboardArrowDown className='text-gray-400 text-14' />
-                </div>
-            </TooltipComponent>
+                <TooltipComponent content="Profile" position='BottomCenter'>
+                    <div className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg" onClick={() => handleClick('userProfile')}>
+                        <img src={avatar} alt="" className='rounded-full h-8 w-8' />
+                        <p>
+                            <span className='text-gray-400 text-14'>
+                                Hi,
+                            </span>
+                            {" "}
+                            <span className='text-gray-400 font-boldml-1 text-14'>
+                                Micheal
+                            </span>
+                        </p>
+                        <MdKeyboardArrowDown className='text-gray-400 text-14' />
+                    </div>
+                </TooltipComponent>
+
+                {isClicked.cart && <Cart />}
+                {isClicked.chat && <Chat />}
+                {isClicked.notification && <Notification />}
+                {isClicked.userProfile && <UserProfile />}
             </div>
         </div>
     )
