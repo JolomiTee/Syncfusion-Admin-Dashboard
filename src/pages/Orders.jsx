@@ -11,12 +11,15 @@ const Orders = () => {
             <GridComponent
                 id='grid-component'
                 dataSource={ordersData}
+                allowSorting
+                allowPaging
             >
                 <ColumnsDirective>
                     {ordersGrid.map((item, index) => (
                         <ColumnDirective key={index} {...item} />
                     ))}
                 </ColumnsDirective>
+                <Inject services={[Resize, Sort, ContextMenu, Filter, Page, ExcelExport, Edit, PdfExport]} />
             </GridComponent>
         </div>
     )
