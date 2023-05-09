@@ -84,7 +84,7 @@ const Navbar = () => {
                             </span>
                             {" "}
                             <span className='text-gray-400 font-boldml-1 text-14'>
-                                Micheal
+                                Taiwo
                             </span>
                         </p>
                         <MdKeyboardArrowDown className='text-gray-400 text-14' />
