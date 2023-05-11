@@ -12,7 +12,7 @@ import { useStateContext } from './contexts/ContextProvider'
 
 
 function App() {
-    const { activeMenu, themeSettings, setThemeSettings } = useStateContext()
+    const { activeMenu, themeSettings, setThemeSettings, currentColor } = useStateContext()
 
     return (
         <div className="">
@@ -21,7 +21,7 @@ function App() {
 
                     <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
                         <TooltipComponent content="Settngs" position="Top">
-                            <button onClick={() => setThemeSettings(true)} type='button' className='text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white' style={{ background: 'blue', borderRadius: '50%' }}>
+                            <button onClick={() => setThemeSettings(true)} type='button' className='text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white' style={{ background: currentColor, borderRadius: '50%' }}>
                                 <FiSettings />
                             </button>
                         </TooltipComponent>
